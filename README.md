@@ -37,4 +37,4 @@ You must also have **vgmstream** installed on your system:
 
 Run the automated extractor:
 ```bash
-python3 pd_vox_extractor.py
+python3 pd_vox_extractor_final.py
