@@ -137,7 +137,7 @@ def main():
     shutil.rmtree(TEMP_DIR)
     shutil.rmtree(BASE_WAVS_DIR)
 
-    print(f"\nExtracted and mapped {success_count} HQ Voice lines to '{OUT_VOX_DIR}/'.")
+    print(f"\nExtracted and mapped {success_count} Perfect voice lines to '{OUT_VOX_DIR}/'.")
 
 if __name__ == "__main__":
     main()
