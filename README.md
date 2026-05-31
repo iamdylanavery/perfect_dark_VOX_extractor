@@ -26,15 +26,48 @@ Because the audio data is raw, standard decoders cannot read it. This Python scr
 
 ## Requirements
 
-To run this tool, you must place the following files in the same directory:
+To run this tool, place the following files together in the exact same folder:
 * `XMASpeech.dat` (Extracted from the XBLA STFS container)
 * `vox_mapping.txt` (Generated via the PC Port's `romdata.c` initialization routine)
 
-You must also have **vgmstream** installed on your system:
-* **macOS:** `brew install vgmstream`
+You must also have the **vgmstream** command-line tool installed or placed in this folder so the script can decode the Xbox 360 audio. Follow the instructions below for your operating system:
+
+### 🖥️ Windows (Easiest Method)
+1. Go to [vgmstream.org](https://vgmstream.org).
+2. Click and download **Command-line (64-bit) Win**.
+3. Open the downloaded `.zip` folder.
+4. Drag and drop **every single file** inside that zip (including `vgmstream-cli.exe` and all the accompanying `.dll` files) directly into the folder where your Python script is located.
+
+### 🍎 macOS
+**Method A (If you use Homebrew):**
+1. Open your Terminal.
+2. Paste this command and press Enter:
+   ```bash
+   brew install vgmstream
+
+**Method B (Manual Download):**
+
+1.  Go to vgmstream.org.
+2.  Click and download Command-line (static build) Mac.
+3.  Move the downloaded file into your script folder and rename it exactly to:
+    vgmstream-cli
+4.  Open your Terminal, navigate to your script folder, and run this command to
+    allow your system to run it:
+    chmod +x vgmstream-cli
+
+### 🐧 Linux
+
+1.  Go to vgmstream.org.
+2.  Click and download Command-line (static build) Linux.
+3.  Move the downloaded file into your script folder and rename it exactly to:
+    vgmstream-cli
+4.  Open your Terminal, navigate to your script folder, and make the tool
+    executable by running:
+    chmod +x vgmstream-cli
 
 ## Usage
 
-Run the automated extractor:
-```bash
+Once your files and vgmstream are placed in the folder, run the automated
+extractor from your terminal:
+
 python3 pd_vox_extractor_final.py
