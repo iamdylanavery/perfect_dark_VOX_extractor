@@ -11,9 +11,20 @@ BASE_WAVS_DIR = "xbla_base_wavs"
 OUT_VOX_DIR = "ext_vox"
 
 def find_vgmstream():
+    # 1. First, check if the executable is placed directly in the script folder.
+    # We check common names for Unix (Mac/Linux) and Windows.
+    local_names = ["vgmstream-cli", "vgmstream", "vgmstream-cli.exe", "vgmstream.exe"]
+    for name in local_names:
+        local_path = os.path.abspath(name)
+        if os.path.exists(local_path):
+            return local_path
+
+    # 2. Check if it is installed globally in the system PATH.
     for cmd in ["vgmstream-cli", "vgmstream"]:
         if shutil.which(cmd):
             return cmd
+
+    # 3. Fallback for common macOS global directories.
     common_mac_paths = [
         "/opt/homebrew/bin/vgmstream-cli",
         "/opt/homebrew/bin/vgmstream",
@@ -23,6 +34,7 @@ def find_vgmstream():
     for path in common_mac_paths:
         if os.path.exists(path):
             return path
+            
     return None
 
 def main():
@@ -35,7 +47,8 @@ def main():
 
     vgmstream_path = find_vgmstream()
     if not vgmstream_path:
-        print("ERROR: Could not find 'vgmstream-cli' on your Mac.")
+        print("ERROR: Could not find 'vgmstream-cli' or 'vgmstream' on your system.")
+        print("Please ensure vgmstream is installed globally or placed directly in this folder.")
         return
 
     os.makedirs(TEMP_DIR, exist_ok=True)
@@ -73,7 +86,6 @@ def main():
         payload_size = len(payload)
 
         # COMPILE GENUINE MICROSOFT RIFF/XMA2 HEADER
-        # This tricks vgmstream into parsing the file natively!
         riff_header = struct.pack('<4sI4s4sI', 
             b'RIFF',
             20 + len(raw_xma), # RIFF chunk size
@@ -125,7 +137,7 @@ def main():
     shutil.rmtree(TEMP_DIR)
     shutil.rmtree(BASE_WAVS_DIR)
 
-    print(f"\nMasterpiece complete! Extracted and mapped {success_count} HQ Voice lines to '{OUT_VOX_DIR}/'.")
+    print(f"\nExtracted and mapped {success_count} HQ Voice lines to '{OUT_VOX_DIR}/'.")
 
 if __name__ == "__main__":
     main()
